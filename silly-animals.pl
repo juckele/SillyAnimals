@@ -1,6 +1,15 @@
 #!/usr/bin/perl
 use strict;
 
+sub getNewAnimal {
+    my @adjective = ("Angry","Brave","Busy","Careful","Evasive","Gross","Hungry","Large","Mean",
+		     "Nice","Posh","Quaint","Risky","Shy","Silly","Steady","Stoic","Wary");
+    my @animal = ("Ant","Bat","Cat","Chicken","Cow","Dog","Dragon","Duck","Emu","Fox","Giraffe",
+		  "Horse","Ibix","Jackal","Kangaroo","Lemur","Lizard","Monkey","Otter","Owl",
+		  "Penguin","Pig","Quail","Snake","Spider","Tiger","Turtle","Wolf","Yak","Zebra");
+    return $adjective[rand @adjective] . $animal[rand @animal];
+}
+
 # Determine mode from user input
 my $input_mode;
 if ( scalar @ARGV == 2 && $ARGV[0] eq "-i" ) {
@@ -58,11 +67,37 @@ if ( $input_mode ) {
 }
 # Otherwise, we're running in output_mode. Map gross-strings to animals (and add new mappings as required)
 else {
+    my %niceToGross = map {
+	split(/\s/, $_, 2);
+    } @lines;
     my %grossToNice = map {
 	reverse split(/\s/, $_, 2);
     } @lines;
     foreach my $line ( <STDIN> ) {
 	chomp( $line );
+	my @uuids = $line =~ /\b[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}\b/g;
+	foreach my $gross (@uuids) {
+	    my $nice;
+	    if ( ! exists $grossToNice{$gross} ) {
+		$nice = getNewAnimal();
+		while ( exists $niceToGross{$nice} ) {
+		    $nice = getNewAnimal();
+		}
+		$grossToNice{$gross} = $nice;
+		$niceToGross{$nice} = $gross;
+	    } else {
+		$nice = $grossToNice{$gross};
+	    }
+	    $line =~ s/\b$gross\b/$nice/ge;
+	}
 	print "$line\n";
     }
+
+    # save everything back out to file for persistenct
+    my @newLines = map {$_ . ' ' . $niceToGross{$_}} keys %niceToGross;
+    open my $outHandle, '>', $file;
+    foreach (@newLines) {
+	print $outHandle $_ . "\n";
+    }
+    close $outHandle;
 }
