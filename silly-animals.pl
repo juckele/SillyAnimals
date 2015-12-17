@@ -33,9 +33,6 @@ open my $handle, '<', $file;
 chomp(my @lines = <$handle>);
 close $handle;
 
-# DEBUG, REMOVE
-#print @lines;
-
 # If we're running in input_mode, map animals to gross-strings.
 if ( $input_mode ) {
     my %niceToGross = map {
@@ -59,4 +56,4 @@ if ( $input_mode ) {
 	exit 0;
     }
 }
-
+# Otherwise, we're running in output_mode. Map gross-strings to animals (and add new mappings as required)
