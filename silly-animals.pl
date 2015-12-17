@@ -2,8 +2,9 @@
 use strict;
 
 sub getNewAnimal {
-    my @adjective = ("Angry","Brave","Busy","Careful","Evasive","Gross","Hungry","Large","Mean",
-		     "Nice","Posh","Quaint","Risky","Shy","Silly","Steady","Stoic","Wary");
+    my @adjective = ("Angry","Brave","Busy","Careful","Evasive","Fat","Fast","Fierce","Friendly",
+		     "Greedy","Gross","Happy","Hungry","Large","Lazy","Mean","Nice","Nosy","Posh",
+		     "Quaint","Risky","Shy","Silly","Skinny","Sleepy","Small","Steady","Stoic","Wary");
     my @animal = ("Ant","Bat","Cat","Chicken","Cow","Dog","Dragon","Duck","Emu","Fox","Giraffe",
 		  "Horse","Ibix","Jackal","Kangaroo","Lemur","Lizard","Monkey","Otter","Owl",
 		  "Penguin","Pig","Quail","Snake","Spider","Tiger","Turtle","Wolf","Yak","Zebra");
