@@ -5,7 +5,7 @@ use strict;
 my $input_mode;
 if ( scalar @ARGV == 2 && $ARGV[0] eq "-i" ) {
     $input_mode = 1;
-} elsif(scalar @ARGV == 2 && $ARGV[0] eq "-o" ) {
+} elsif(scalar @ARGV == 1 && $ARGV[0] eq "-o" ) {
     $input_mode = 0;
 } else {
     print "Use -i when you're trying to input silly animals, use -o when you're filtering output\n";
@@ -57,3 +57,12 @@ if ( $input_mode ) {
     }
 }
 # Otherwise, we're running in output_mode. Map gross-strings to animals (and add new mappings as required)
+else {
+    my %grossToNice = map {
+	reverse split(/\s/, $_, 2);
+    } @lines;
+    foreach my $line ( <STDIN> ) {
+	chomp( $line );
+	print "$line\n";
+    }
+}
