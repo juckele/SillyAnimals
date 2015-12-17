@@ -26,3 +26,15 @@ produces
 produces
 
     21cd5a82-903a-419a-bdd8-2e95b21fdf18
+
+And get lazy if you want! Don't type the whole thing (as long as silly-animals can resolve what you meant, it'll use it)
+
+    echo -e "$(./silly-animals.pl -i Fier)"
+
+produces
+
+    21cd5a82-903a-419a-bdd8-2e95b21fdf18
+
+# Technical limitations
+
+silly-animals uses `/tmp/silly-animals.dat` as a data store. Depending on how you have your machine configured, there can be a risk that this will fill up.
