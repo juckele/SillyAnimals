@@ -50,7 +50,7 @@ if ( $input_mode ) {
     my $nice = $ARGV[1];
     my $gross = $niceToGross{$nice};
     if(!$gross){
-	my @partials = grep { index $_, $nice } keys %niceToGross;
+	my @partials = grep { !index $_,$nice } keys %niceToGross;
 	if ( scalar @partials == 1 ) {
 	    print $niceToGross{@partials[0]};
 	    exit 0;
